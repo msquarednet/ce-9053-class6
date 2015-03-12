@@ -25,6 +25,37 @@ describe("models", function() {
     });
     
     describe("Person", function() {
+        
+        describe("acquire", function() {
+           describe("Moe gets a Rock", function() {
+               var thing;
+               var person;
+               beforeEach(function(done) {
+                   Person.acquire(ids.moeId, ids.rockId, function() {
+                      Thing.getOneByName("Rock", function(err, _thing) {
+                          thing = _thing;
+                          Person.getOneByName("Moe", function(err, _thing) {
+                              person = _person;
+                              done()
+                          });
+                      }) 
+                   });
+               });
+               it ("Moe has one rock", function() {
+                   expect(person.things.length).toEqual(1);
+              });
+            //   it ("Moe's numberOfThings", function() {
+            //       expect(person.things).toEqual(1);
+            //   });
+            //   it ("Moe has a rock", function() {
+            //       expect(person.things[0].name).toEqual("Rock");
+            //   });
+            //   it ("Rock has one owner", function() {
+            //       expect(thing).toEqual("Rock");
+            //   });
+           }) 
+        });
+        
         describe("getPersonByName", function() {
             var person;
             beforeEach(function(done) {
@@ -97,20 +128,20 @@ describe("models", function() {
             });
         })
         
-        // describe("getAll", function() {
-        //     var people;
-        //     beforeEach(function(done) {
-        //         Person.getAll(function(err, _people) {
-        //             people = _people.map(function(i) {
-        //                 return i.name;
-        //             });
-        //             done();
-        //         });
-        //     });
-        //     it("returns [curly, larry, moe]", function() {
-        //         expect(people).toEqual(["Curly", "Larry", "Moe"]);
-        //     });
-        // })
+        describe("getAll", function() {
+            var things;
+            beforeEach(function(done) {
+                Person.getAll(function(err, _things) {
+                    things = _things.map(function(i) {
+                        return i.name;
+                    });
+                    done();
+                });
+            });
+            it("returns [paper,rock,scissors]", function() {
+                expect(things).toEqual(["Paper", "Rock", "Scissors"]);
+            });
+        })
 
     });//end Thing tests
         
